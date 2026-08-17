@@ -388,17 +388,21 @@ let page = 0;
       // Récupération de la page suivante
       if(j.next){
 
-        const nextUrl = new URL(j.next);
+        if(j.next){
 
-        url =
-          nextUrl.pathname +
-          nextUrl.search;
+  const nextUrl = new URL(j.next);
 
-      }else{
+  nextUrl.searchParams.set("market", "FR");
 
-        url = "";
+  url =
+    nextUrl.pathname +
+    nextUrl.search;
 
-      }
+}else{
+
+  url = "";
+
+}
 
       // Petite pause entre les pages
       if(url){
