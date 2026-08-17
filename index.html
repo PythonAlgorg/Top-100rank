@@ -346,7 +346,7 @@ async function startPlaylist(id){
     const total = p.items?.total || 0;
 
     let items = [];
-    let url = `/playlists/${id}/items?limit=50`;
+    let url = `/playlists/${id}/items?limit=50&market=FR`;
 
     let page = 0;
 
