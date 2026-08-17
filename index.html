@@ -196,6 +196,14 @@ async function api(path, options={}){
           j.error?.message ||
           `Erreur Spotify (${r.status})`;
 
+        if(r.status === 403){
+          throw new Error(
+            `Spotify refuse cette requête (403 Forbidden).\n\n` +
+            `URL : ${API + path}\n\n` +
+            `Message Spotify : ${message}`
+          );
+        }
+
         // Erreurs serveur temporaires
         if(
           (r.status >= 500 || r.status === 408) &&
