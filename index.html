@@ -217,29 +217,33 @@ async function api(path, options={}){
 
     }catch(e){
 
-      if(
-        e.message === "401" ||
-        e.message.includes("limite temporairement")
-      ){
-        throw e;
-      }
+  // Ces erreurs ne doivent PAS être retentées
+  // car elles indiquent un problème d'authentification
+  // ou une erreur Spotify définitive.
+  if(
+    e.message === "401" ||
+    e.message.includes("limite temporairement") ||
+    e.message.includes("Erreur Spotify")
+  ){
+    throw e;
+  }
 
-      lastError = e;
+  lastError = e;
 
-      if(attempt >= maxRetries){
-        break;
-      }
+  if(attempt >= maxRetries){
+    break;
+  }
 
-      showLoading(
-        $("loadingTitle").textContent || "Chargement…",
-        `Connexion à Spotify instable… nouvelle tentative ${attempt + 2}/${maxRetries + 1}`,
-        Number.parseFloat($("loadingBar").style.width) || 0
-      );
+  showLoading(
+    $("loadingTitle").textContent || "Chargement…",
+    `Connexion à Spotify instable… nouvelle tentative ${attempt + 2}/${maxRetries + 1}`,
+    Number.parseFloat($("loadingBar").style.width) || 0
+  );
 
-      await sleep(
-        baseDelay * Math.pow(2, attempt)
-      );
-    }
+  await sleep(
+    baseDelay * Math.pow(2, attempt)
+  );
+}
   }
 
   throw lastError || new Error(
