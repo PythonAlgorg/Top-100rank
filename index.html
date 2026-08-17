@@ -334,21 +334,13 @@ async function startPlaylist(id){
   try{
 
     const p = await api(`/playlists/${id}`);
-    await testPlaylistItems(id);
-    alert(
-  `Playlist chargée !\n\n` +
-  `Nom : ${p.name}\n` +
-  `Propriétaire : ${p.owner?.display_name || p.owner?.id || "inconnu"}\n` +
-  `ID : ${p.id}\n\n` +
-  `Tentative de récupération des morceaux...`
-);
 
-    const total = p.items?.total || 0;
+const total = p.items?.total || 0;
 
-    let items = [];
-    let url = `/playlists/${id}/items?limit=50&market=FR`;
+let items = [];
+let url = `/playlists/${id}/items?limit=50&market=FR`;
 
-    let page = 0;
+let page = 0;
 
     // Protection contre une boucle infinie
     const seenUrls = new Set();
